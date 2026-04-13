@@ -1,0 +1,39 @@
+# 🚀 Gemini CLI Orchestrator - Ignore Patterns
+
+# --- Secrets & Credentials ---
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+credentials.json
+auth.json
+
+# --- Gemini CLI Logs & History ---
+# Bloqueia o histórico de conversas e cache do agente
+.gemini/history/
+.gemini/cache/
+.gemini/logs/
+.gemini/*.db
+memory.db
+
+# --- Research & Orchestration Logs ---
+# Bloqueia os cadernos de campo (audit trail) para evitar vazamento de dados processados
+deep_research_*.md
+manus_*.md
+research_archive/
+manus_archive/
+
+# --- OS & IDE ---
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*~
+
+# --- System & Dependencies ---
+node_modules/
+venv/
+__pycache__/
+*.log
