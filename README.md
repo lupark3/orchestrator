@@ -27,6 +27,8 @@ gemini commands install https://raw.githubusercontent.com/SEU_USUARIO/orchestrat
 ### 2. Agents (`/agents`)
 Arquivos `.md` que atuam como sub-agentes especialistas no ecossistema do Gemini CLI, com diretrizes otimizadas para carregamento sob demanda.
 
+**Vantagem principal:** Por rodarem como sub-agentes, eles executam tarefas complexas e extensas em um fluxo de contexto isolado, preservando totalmente a sua sessão principal (janela de contexto). O chat principal se mantém limpo e sem estouro de tokens, pois apenas o resultado final (e não a longa execução) é retornado para a conversa base.
+
 **Instalação via Deep Link (Agentes):**
 ```bash
 gemini agents add https://raw.githubusercontent.com/SEU_USUARIO/orchestrator/main/agents/deep-research.md
