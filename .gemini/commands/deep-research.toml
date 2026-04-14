@@ -178,6 +178,7 @@ Incrementar contador de buscas.
 **Após CADA web_fetch** → IMEDIATAMENTE atualizar "Registro de Leituras":
 
 **REGRA DE EXAUSTIVIDADE:** É **TERMINANTEMENTE PROIBIDO** usar placeholders como `[...]`, `...`, `(outras fontes)` ou qualquer forma de resumo para omitir fontes de um lote. CADA URL submetida com sucesso DEVE ter seu próprio bloco individual (Fonte #N) preenchido integralmente. Se o lote tem 20 URLs, o caderno DEVE ter 20 blocos de fonte registrados.
+**PROIBIÇÃO DE AGRUPAMENTO EM TABELAS:** Na tabela "Fontes Confirmadas", é expressamente PROIBIDO agrupar fontes (ex: "Fontes 1 a 10", "Várias URLs"). CADA FONTE deve ter sua linha individual contendo o Título e a **URL EXATA E COMPLETA**.
 
 ```markdown
 ### Lote #[N] — [timestamp]
@@ -186,7 +187,7 @@ Incrementar contador de buscas.
 - URLs que falharam: [N]
 
 #### Fonte #[N]: [título da página]
-- URL: [url completa]
+- URL: [url completa] (PROIBIDO truncar ou usar "...". Cole o link absoluto inteiro)
 - Método: web_fetch ✅ / Playwright ✅
 - Confiabilidade: alta / média / baixa
 - Data da publicação: [quando disponível]
@@ -294,16 +295,15 @@ Após atualizar o caderno com cada lote:
 2. Quebre em 3-8 sub-perguntas.
 3. Classifique: FOCADO / AMPLO / CONTROVERSO.
 4. Gere o nome do arquivo (`run_shell_command: date +%Y%m%d_%H%M%S`).
-5. Pergunte sobre handoff:
+5. **OBRIGATÓRIO:** Chame a ferramenta `ask_user` (type: "choice") para perguntar sobre o handoff:
+   - header: "Handoff"
+   - question: "Esta pesquisa será usada em conjunto com o /manus para execução?"
+   - options: 
+     - label: "SIM", description: "Otimizar caderno para handoff (inclui seção Recomendações)"
+     - label: "NÃO", description: "Pesquisa independente"
+**⚠️ GATE — Você DEVE chamar a ferramenta ask_user agora e PARAR completamente a geração de texto. Não crie o caderno e não avance para o passo 6 até que a ferramenta retorne a resposta do usuário.**
 
-```
-🔗 Esta pesquisa será usada em conjunto com o /manus para execução?
-  1. SIM — Otimizar caderno para handoff (incluir seção "Recomendações para Execução")
-  2. NÃO — Pesquisa independente
-```
-**⚠️ GATE — PARE AQUI. Aguarde a resposta do usuário.**
-
-6. Crie o caderno via `write_file` com a estrutura completa (incluindo "Handoff para Manus" se SIM).
+6. Após receber a resposta da ferramenta, crie o caderno via `write_file` com a estrutura completa (incluindo "Handoff para Manus" se a resposta for SIM).
 7. Apresente o plano:
 
 ```
@@ -445,8 +445,11 @@ Este caderno deve ser passado ao /manus com:
 ## Conclusão
 [Síntese + nível de confiança: ALTO/MÉDIO/BAIXO.]
 
-## Fontes Confirmadas
-[COPIE da tabela do caderno]
+## Fontes Referenciadas
+[Para CADA fonte citada na análise, liste a numeração, o título e a URL COMPLETA E CLICÁVEL. Ex: "[1] Título - https://www.exemplo.com.br/caminho/completo/para/o/artigo"]
+
+## Todas as Fontes Confirmadas
+[COPIE a tabela do caderno garantindo que todas as URLs exatas estejam visíveis, sem agrupamentos.]
 
 ## Fontes Inacessíveis
 [COPIE da tabela do caderno]
@@ -466,15 +469,18 @@ Este caderno deve ser passado ao /manus com:
 
 ```
 🧹 Caderno de campo ([nome do arquivo]):
-  1. 🗑️ Apagar
-  2. 📁 Arquivar (mover para research_archive/)
-  3. 📌 Manter onde está
-```
-**⚠️ GATE — PARE AQUI. Aguarde a resposta do usuário.**
+  1. **OBRIGATÓRIO:** Use a ferramenta `ask_user` (type: "choice") para perguntar o que fazer com o caderno:
+   - header: "Limpeza"
+   - question: "Pesquisa concluída. O que deseja fazer com o caderno de campo ([nome do arquivo])?"
+   - options: 
+     - label: "Apagar", description: "Remover o arquivo md"
+     - label: "Arquivar", description: "Mover para a pasta research_archive/"
+     - label: "Manter", description: "Não fazer nada"
+**⚠️ GATE — Você DEVE chamar a ferramenta ask_user agora e PARAR completamente a geração de texto até receber a resposta.**
 
-- Opção 1 → `rm [arquivo]`
-- Opção 2 → `mkdir -p research_archive && mv [arquivo] research_archive/`
-- Opção 3 → não faça nada
+- Opção Apagar → `rm [arquivo]`
+- Opção Arquivar → `mkdir -p research_archive && mv [arquivo] research_archive/`
+- Opção Manter → não faça nada
 - **NUNCA** apague sem resposta explícita.
 - **Se modo handoff = SIM** e o usuário ainda não usou o /manus, recomende a opção 3.
 

@@ -1,60 +1,88 @@
-# 🚀 Gemini CLI Commands Toolkit
+# 🚀 Gemini CLI Orchestrator Toolkit
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Environment](https://img.shields.io/badge/OS-Linux-orange.svg)]()
 [![Validated](https://img.shields.io/badge/CLI-Gemini_CLI-blue.svg)]()
 
-Um conjunto de comandos avançados para o [Gemini CLI](https://github.com/google/gemini-cli), projetados para transformar a IA em um agente de pesquisa profunda e execução autônoma.
+Um conjunto avançado de **Commands** e **Agents** para o [Gemini CLI](https://github.com/google-gemini/gemini-cli), projetado para transformar a IA em um sistema de pesquisa profunda e execução autônoma. 
 
-## 🛠️ Especificações de Ambiente
-- **Testado em:** Linux (Ubuntu/Debian recomendado).
-- **Formato:** Arquivos `.toml` nativos para o diretório `.gemini/commands/`.
-- **Portabilidade:** Para uso em outras ferramentas CLI, é necessário converter os prompts para `.md` ou `YAML`, respeitando as tags de instruções.
+> **Aviso de Compatibilidade:** Este toolkit foi exaustivamente **testado e validado exclusivamente no Gemini CLI**. Para uso em outras plataformas ou ferramentas CLI de IA, adaptações estruturais nos prompts e comandos podem ser necessárias.
 
 ---
 
-## 🧠 Como os Comandos Funcionam
+## 📂 Estrutura do Toolkit e Deep Links
 
-Este toolkit opera sob o princípio da **Auditabilidade Total**. Cada comando cria um **Caderno de Campo** (.md) na raiz do projeto, registrando cada ação, busca e decisão tomada.
+Este repositório fornece as ferramentas em dois formatos. Você pode instalar ambos diretamente usando os deep links:
 
-### 1. `/deep-research` (O Investigador)
+### 1. Commands (`/commands`)
+Arquivos `.toml` nativos do Gemini CLI. Fornecem instruções estritas que você chama sob demanda no chat (ex: `/deep-research`, `/manus`, `/deep-research-lite`).
+
+**Instalação via Deep Link (Comandos):**
+```bash
+gemini commands install https://raw.githubusercontent.com/SEU_USUARIO/orchestrator/main/commands/deep-research.toml
+gemini commands install https://raw.githubusercontent.com/SEU_USUARIO/orchestrator/main/commands/deep-research-lite.toml
+gemini commands install https://raw.githubusercontent.com/SEU_USUARIO/orchestrator/main/commands/manus.toml
+```
+
+### 2. Agents (`/agents`)
+Arquivos `.md` que atuam como sub-agentes especialistas no ecossistema do Gemini CLI, com diretrizes otimizadas para carregamento sob demanda.
+
+**Instalação via Deep Link (Agentes):**
+```bash
+gemini agents add https://raw.githubusercontent.com/SEU_USUARIO/orchestrator/main/agents/deep-research.md
+gemini agents add https://raw.githubusercontent.com/SEU_USUARIO/orchestrator/main/agents/deep-research-lite.md
+gemini agents add https://raw.githubusercontent.com/SEU_USUARIO/orchestrator/main/agents/manus.md
+```
+
+*(Nota: Substitua `SEU_USUARIO` pelo seu usuário do GitHub caso faça fork, ou use a URL direta do repositório original).*
+
+---
+
+## 🧠 Ferramentas Disponíveis
+
+Todas as abordagens operam sob o princípio da **Auditabilidade Total** e **Alta Interatividade**. Cada execução cria um **Caderno de Campo** (.md) na raiz do projeto, registrando cada ação, busca e decisão. Além disso, **os agentes sempre solicitarão autorização explícita do usuário** antes de realizar qualquer alteração no sistema ou executar ações críticas.
+
+### 1. `deep-research-lite` (Pesquisa Ágil)
+Versão 50% mais rápida da pesquisa profunda. Metas reduzidas para maior agilidade, mantendo a obrigatoriedade do caderno de campo.
+- **Uso:** Ideal para investigações detalhadas com menor volume de fontes.
+
+### 2. `deep-research` (O Investigador)
 Focado em extrair a verdade através de múltiplas fontes.
-- **Fluxo:** Mapeia sub-perguntas ➔ Executa buscas (mín. 50) ➔ Lê conteúdo real via `web_fetch` (mín. 20 fontes) ➔ Realiza validação cruzada.
-- **Saída:** Um relatório técnico consolidado baseado apenas em dados reais (sem alucinações).
-- **Consumo:** Elevado (High Token Usage). Use para pesquisas críticas.
+- **Fluxo:** Mapeia sub-perguntas ➔ Buscas (mín. 50) ➔ Leitura via `web_fetch` (mín. 20 fontes) ➔ Validação cruzada.
+- **Saída:** Relatório técnico consolidado sem alucinações.
+- **Consumo:** Elevado. Use para pesquisas críticas.
 
-### 2. `/manus` (O Orquestrador)
-Projetado para planejar e executar tarefas complexas de sistema.
-- **Fluxo:** Analisa a tarefa ➔ Detecta cadernos de pesquisa anteriores (Handoff) ➔ Cria um Plano de Execução ➔ Executa comandos shell ➔ Realiza self-debugging automático.
-- **Workflow Integrado:** Pode ler o caderno gerado pelo `/deep-research` para aplicar recomendações técnicas precisas.
-
----
-
-## 🛡️ Fluxo de Aprovação (Gates)
-
-Ambos os comandos utilizam o sistema de **⚠️ GATES** para garantir segurança e controle do usuário. O agente **PARA COMPLETAMENTE** a execução e aguarda sua resposta nos seguintes momentos:
-
-- **G0/G1:** Refinamento de prompt e desambiguação inicial.
-- **G2:** Detecção de cadernos anteriores (Retomar vs. Novo).
-- **G3:** Aprovação do Plano de Execução (no caso do Manus).
-- **G4/G5:** Antes de comandos críticos ou destrutivos (ex: `rm`, `config`).
-- **G8:** Finalização e Cleanup (Decisão de manter ou apagar cadernos de log).
+### 3. `manus` (O Orquestrador)
+Projetado para planejar e executar tarefas complexas de sistema de forma autônoma, mas sempre sob supervisão.
+- **Fluxo:** Analisa tarefa ➔ Handoff (lê caderno do deep-research) ➔ Cria Plano ➔ Solicita Aprovação ➔ Executa shell ➔ Self-debugging.
+- **Integração:** Lê nativamente os relatórios gerados pelas ferramentas de pesquisa para guiar suas ações.
 
 ---
 
-## 🆙 Evolução: De Commands para Skills
+## 🔗 Sobre os Aliases de Modelo
 
-Embora o repositório forneça comandos prontos, você pode transformá-los em **Skills** para maior modularidade:
-1. **Pasta:** Crie `.gemini/skills/nome-da-skill/`.
-2. **Arquivo:** Adicione um `SKILL.md`.
-3. **Migração:** Transfira a `<description>` e as `<instructions>` do arquivo `.toml` para o Markdown.
-4. **Contexto:** Isso permite que a IA carregue essas instruções sob demanda, economizando tokens em conversas genéricas.
+Nos arquivos dos agentes (`/agents`), você notará a configuração de **aliases de modelo** na definição do agente (exemplo: `model = "pro-research"`). 
+Esses aliases referem-se à **configuração de modelos do próprio Gemini CLI**. 
+
+Por exemplo, `pro-research` é um alias que mapeia para o modelo Gemini Pro com as capacidades de **pensamento profundo (thinking)** ativadas.
+- Caso você não tenha ou não queira usar esses aliases específicos de modelo configurados em seu Gemini CLI, basta **remover ou alterar a linha `model = ...`** no arquivo do agente para usar o modelo padrão de sua preferência.
+
+---
+
+## 🛡️ Fluxo de Aprovação (Gates) e Interatividade
+
+Estas ferramentas são **altamente interativas**. O agente **NUNCA** age pelas suas costas em ações de risco. Ele utiliza **⚠️ GATES** (pontos de parada) para garantir segurança e controle absoluto do usuário:
+- **G0/G1:** Refinamento de prompt e desambiguação.
+- **G2:** Detecção de cadernos de pesquisa/execução anteriores (Decisão de Handoff).
+- **G3:** Aprovação do Plano de Execução (Obrigatório no Manus).
+- **G4/G5:** Autorização obrigatória antes de executar comandos de shell críticos ou destrutivos.
+- **G8:** Finalização e Cleanup (Manter, arquivar ou apagar cadernos de log).
 
 ---
 
 ## ⚠️ Avisos Críticos
-- **Consumo de Tokens:** Por serem comandos de "Pesquisa Profunda" e "Orquestração", eles utilizam ferramentas de leitura em massa. Utilize em situações complexas onde a precisão é mandatória.
-- **Higiene de Dados:** Os cadernos de campo registram tudo. Certifique-se de não expor o conteúdo desses arquivos se eles contiverem dados sensíveis processados.
+- **Consumo de Tokens:** As pesquisas e orquestrações realizam leituras em massa na web e no sistema.
+- **Higiene de Dados:** Os cadernos de campo registram absolutamente tudo. Certifique-se de não commitar/expor cadernos que contenham chaves ou dados sensíveis processados.
 
 ---
-**Desenvolvido para máxima precisão e autonomia no terminal.**
+**Desenvolvido para máxima precisão e autonomia segura no terminal.**

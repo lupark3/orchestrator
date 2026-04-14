@@ -161,6 +161,7 @@ Validação Final: [comando de teste]
 **Após CADA web_fetch** → IMEDIATAMENTE `write_file`:
 
 **REGRA DE EXAUSTIVIDADE:** É **TERMINANTEMENTE PROIBIDO** usar placeholders como `[...]`, `...`, `(outras fontes do lote)` ou qualquer forma de resumo para omitir fontes de um lote. CADA URL submetida com sucesso DEVE ter seu próprio bloco individual (Fonte #N) preenchido integralmente. Se o lote tem 15 URLs, o caderno DEVE ter 15 blocos de fonte registrados.
+**PROIBIÇÃO DE AGRUPAMENTO EM TABELAS:** Na tabela "Fontes Confirmadas", é expressamente PROIBIDO agrupar fontes (ex: "Fontes 1 a 10", "Várias URLs"). CADA FONTE deve ter sua linha individual contendo o Título e a **URL EXATA E COMPLETA**.
 
 ```markdown
 ### Lote #[N] — [timestamp]
@@ -169,7 +170,7 @@ Validação Final: [comando de teste]
 - URLs falhas: [N]
 
 #### Fonte #[N]: [título]
-- URL: [url]
+- URL: [url completa] (PROIBIDO truncar ou usar "...". Cole o link absoluto inteiro)
 - Método: web_fetch ✅ / Playwright ✅
 - Confiabilidade: alta/média/baixa
 - **Conteúdo extraído:**
@@ -420,11 +421,11 @@ C: Decidir próximos passos com base no caderno
 | Tarefa | Artefato |
 |--------|----------|
 | Instalação/Config | Caderno + script de automação |
-| Pesquisa | Caderno + relatório no chat |
+| Pesquisa | Caderno + relatório no chat (OBRIGATÓRIO listar URLs usadas) |
 | Código | Caderno + arquivo(s) + README |
 | Debug | Caderno + diagnóstico + solução |
 
-Registre a consolidação final no caderno via `write_file` ANTES de apresentar ao usuário.
+Registre a consolidação final no caderno via `write_file` ANTES de apresentar ao usuário. Ao gerar qualquer relatório no chat, você DEVE incluir uma seção listando explicitamente as URLs exatas e clicáveis das fontes que embasaram sua resposta.
 
 ```
 📦 Orquestração concluída. Complementar com:
