@@ -59,13 +59,49 @@ Projetado para planejar e executar tarefas complexas de sistema de forma autôno
 
 ---
 
-## 🔗 Sobre os Aliases de Modelo
+## 🔗 Sobre os Aliases de Modelo e Configuração (IMPORTANTE)
 
 Nos arquivos dos agentes (`/agents`), você notará a configuração de **aliases de modelo** na definição do agente (exemplo: `model = "pro-research"`). 
-Esses aliases referem-se à **configuração de modelos do próprio Gemini CLI**. 
+Esses aliases referem-se à **configuração de modelos do próprio Gemini CLI**. O `pro-research`, por exemplo, é um alias que mapeia para o modelo Gemini Pro com as capacidades de **pensamento profundo (thinking)** ativadas.
 
-Por exemplo, `pro-research` é um alias que mapeia para o modelo Gemini Pro com as capacidades de **pensamento profundo (thinking)** ativadas.
-- Caso você não tenha ou não queira usar esses aliases específicos de modelo configurados em seu Gemini CLI, basta **remover ou alterar a linha `model = ...`** no arquivo do agente para usar o modelo padrão de sua preferência.
+**⚠️ ALERTA DE QUEBRA:** O Gemini CLI **vai quebrar (crash)** ao tentar rodar um agente que referencia um alias que não existe na sua máquina.
+
+### Como configurar os Aliases no seu ambiente
+Para que os agentes rodem com força total e ativem o "pensamento profundo" de maneira correta, você precisa adicionar a configuração do alias no seu arquivo `~/.gemini/settings.json`. Abra esse arquivo e adicione o bloco `modelConfigs`:
+
+```json
+{
+  "modelConfigs": {
+    "customAliases": {
+      "pro-research": {
+        "modelConfig": {
+          "model": "gemini-3.1-pro-preview",
+          "generateContentConfig": {
+            "thinkingConfig": {
+              "thinkingLevel": "HIGH"
+            }
+          }
+        }
+      },
+      "pro-research-lite": {
+        "modelConfig": {
+          "model": "gemini-3.1-pro-preview",
+          "generateContentConfig": {
+            "thinkingConfig": {
+              "thinkingLevel": "MEDIUM"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+### Alternativa: Como remover a dependência
+Caso você **não tenha** ou **não queira** configurar esses aliases específicos no seu Gemini CLI, você deve remover a obrigatoriedade dos agentes instalados.
+
+Basta abrir o arquivo `.md` do agente (ex: `~/.gemini/agents/manus.md`) e **remover a linha `model = ...`** ou alterá-la para o seu modelo de preferência. Sem essa linha, ele usará o modelo padrão global do seu ambiente e não vai quebrar.
 
 ---
 
