@@ -19,6 +19,7 @@ memory.db
 
 # --- Research & Orchestration Logs ---
 # Bloqueia os cadernos de campo (audit trail) para evitar vazamento de dados processados
+pesquisa_*/
 deep_research_*.md
 manus_*.md
 research_archive/
